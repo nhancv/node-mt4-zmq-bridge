@@ -13,7 +13,7 @@ npm install --save nmt4-zmq-bridge
 ## Usage
 
 ```js
-const mt4zmqBridge = require('mt4-zmq-bridge');
+const mt4zmqBridge = require('nmt4-zmq-bridge');
 ```
 
 mt4zmqBridge objects contains multiple enum properties and `connect` function.
