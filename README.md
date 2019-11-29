@@ -7,7 +7,7 @@ This modules depends on this [MetaTrader 4 Expert Advisor](https://github.com/bo
 ## Installation
 
 ```
-npm install --save mt4-zmq-bridge
+npm install --save nmt4-zmq-bridge
 ```
 
 ## Usage

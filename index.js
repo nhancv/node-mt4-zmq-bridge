@@ -1,6 +1,6 @@
 const events = require('events')
 const url = require('url')
-const zmq = require('zeromq')
+const zmq = require('zeromq/v5-compat')
 
 // Identificators for internal request operations.
 const REQUEST_PING = 1
