@@ -96,6 +96,63 @@ zmqBridge.request(mt4zmqBridge.REQUEST_TRADE_DELETE, 140734412).then(res => {
 });
 ```
 
+Full simple example
+```
+const mt4zmqBridge = require('nmt4-zmq-bridge');
+
+const REQ_URL = 'tcp://127.0.0.1:5555';
+const PULL_URL = 'tcp://127.0.0.1:5556';
+
+let zmqBridge = mt4zmqBridge.connect(REQ_URL, PULL_URL);
+zmqBridge.onReqMessage((data) => {
+  console.log('onReqMessage:', data);
+});
+zmqBridge.onPullMessage((data) => {
+  console.log('onPullMessage:', data);
+});
+zmqBridge.reqSocket.on('connect', () => {
+  console.log('reqSocket:', zmqBridge.reqConnected);
+});
+zmqBridge.pullSocket.on('connect', async () => {
+  console.log('pullSocket:', zmqBridge.pullConnected);
+
+  zmqBridge.pullSocket.on('message', msg => {
+    console.log('received:', msg);
+  });
+  zmqBridge.request(mt4zmqBridge.REQUEST_RATES, "USDJPY")
+    .then(res => {
+      console.log('request:', res);   // [ '110.522000', '110.542000', 'USDJPY' ]
+    })
+    .catch(err => {
+      console.error(err);
+    });
+
+  zmqBridge.request(mt4zmqBridge.REQUEST_ACCOUNT)
+    .then(res => {
+      console.log('request:', res);   // [ '110.522000', '110.542000', 'USDJPY' ]
+    })
+    .catch(err => {
+      console.error(err);
+    });
+
+});
+
+// Console
+// reqSocket: true
+// pullSocket: true
+// received: <Buffer 31 7c 30 7c 31 30 39 2e 35 33 33 30 30 30 7c 31 30 39 2e 35 33 34 30 30 30 7c 55 53 44 4a 50 59>
+// request: [ '109.533000', '109.534000', 'USDJPY' ]
+// received: <Buffer 32 7c 30 7c 55 53 44 7c 38 39 39 30 2e 31 33 7c 30 2e 30 30 7c 38 39 39 30 2e 31 33 7c 30 2e 30 30 7c 38 39 39 30 2e 31 33 7c 30 2e 30 30 7c 35 30 2e ... 8 more bytes>
+// request: [
+//   'USD',   '8990.13',
+//   '0.00',  '8990.13',
+//   '0.00',  '8990.13',
+//   '0.00',  '50.00',
+//   '20.00'
+// ]
+
+```
+
 More examples can be found in index.spec.js.
 
 #### zmqBridge.onReqMessage
