@@ -104,11 +104,11 @@ Full simple example
     const PULL_URL = 'tcp://192.168.0.105:5556';
 
     let zmqBridge = mt4zmqBridge.connect(REQ_URL, PULL_URL);
-    zmqBridge.onReqMessage((data) => {
-      console.log('onReqMessage:', data);
+    zmqBridge.onReqMessage = ((command, err, body) => {
+      console.log('onReqMessage:', command, err, body);
     });
-    zmqBridge.onPullMessage((data) => {
-      console.log('onPullMessage:', data);
+    zmqBridge.onPullMessage = ((command, err, body) => {
+      console.log('onPullMessage:', command, err, body);
     });
     zmqBridge.reqSocket.on('connect', () => {
       console.log('reqSocket:', zmqBridge.reqConnected);
@@ -119,27 +119,29 @@ Full simple example
       zmqBridge.pullSocket.on('message', msg => {
         console.log('received:', msg);
       });
-      setInterval(() => {
-        if(zmqBridge.reqConnected && zmqBridge.pullConnected) {
-          zmqBridge.request(mt4zmqBridge.REQUEST_RATES, "USDJPY")
+
+      if(zmqBridge.reqConnected && zmqBridge.pullConnected) {
+          setInterval(() => {
+            if(zmqBridge.reqConnected && zmqBridge.pullConnected) {
+              zmqBridge.request(mt4zmqBridge.REQUEST_RATES, "USDJPY")
+                .then(res => {
+                  console.log('REQUEST_RATES_RES:', res);   // [ '110.522000', '110.542000', 'USDJPY' ] => bid , ask , symbol
+                })
+                .catch(err => {
+                  console.error(err);
+                });
+            }
+    
+          }, 1000);
+    
+          zmqBridge.request(mt4zmqBridge.REQUEST_ACCOUNT)
             .then(res => {
-              console.log('REQUEST_RATES_RES:', res);   // [ '110.522000', '110.542000', 'USDJPY' ] => bid , ask , symbol
+              console.log('REQUEST_ACCOUNT_RES:', res);
             })
             .catch(err => {
               console.error(err);
             });
-        }
-
-      }, 1000);
-
-      zmqBridge.request(mt4zmqBridge.REQUEST_ACCOUNT)
-        .then(res => {
-          console.log('REQUEST_ACCOUNT_RES:', res);
-        })
-        .catch(err => {
-          console.error(err);
-        });
-
+      }
     });
 
 // Console
