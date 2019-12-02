@@ -100,8 +100,8 @@ Full simple example
 ```
     const mt4zmqBridge = require('nmt4-zmq-bridge');
 
-    const REQ_URL = 'tcp://192.168.0.105:5555';
-    const PULL_URL = 'tcp://192.168.0.105:5556';
+    const REQ_URL = 'tcp://127.0.0.1:5555';
+    const PULL_URL = 'tcp://127.0.0.1:5556';
 
     let zmqBridge = mt4zmqBridge.connect(REQ_URL, PULL_URL);
     zmqBridge.onReqMessage = ((command, err, body) => {
