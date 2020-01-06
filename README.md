@@ -4,6 +4,21 @@ Node.js and [MetaTrader 4](https://www.metatrader4.com/) communication bridge wi
 
 This modules depends on this [MetaTrader 4 Expert Advisor](https://github.com/bonnevoyager/MetaTrader4-Bridge). Please introduce with it thoroughly before using this module.
 
+## Requisite (Windows only)
+
+Install Microsoft Visual C++ 2015-2019 Redistributable 14.20.27508
+
+```
+x86
+
+14.20.27508: https://download.visualstudio.microsoft.com/download/pr/092cda8f-872f-47fd-b549-54bbb8a81877/ddc5ec3f90091ca690a67d0d697f1242/vc_redist.x86.exe
+
+x64
+
+14.20.27508: https://download.visualstudio.microsoft.com/download/pr/21614507-28c5-47e3-973f-85e7f66545a4/f3a2caa13afd59dd0e57ea374dbe8855/vc_redist.x64.exe
+```
+
+
 ## Installation
 
 ```
